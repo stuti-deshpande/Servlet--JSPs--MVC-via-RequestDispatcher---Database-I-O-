@@ -1,0 +1,21 @@
+body		{
+				background-color: #f1f1f1;
+			}
+
+h1			{
+				color:blue;
+				text-shadow: -6px 4px 6px grey;
+			}
+	
+.imageClass	{
+				position: fixed;
+				bottom: 50px;
+				right: 5px;
+				height: 100px;
+				width: 150px;
+			}
+.cols		{
+				-webkit-column-count: 3;
+				column-count: 3;
+				column-gap: 50px;
+			}

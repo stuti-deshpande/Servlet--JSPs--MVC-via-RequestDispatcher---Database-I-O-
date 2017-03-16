@@ -1,0 +1,107 @@
+<!--
+Name: Stuti Deshpande
+G Number: G00979218
+SWE 642 Assignment 3
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title> Welcome </title>
+<link rel = "stylesheet" type = "text/css" href = "mystyle.css" />
+<!--<script src="jquery/jquery.js" type="text/javascript"></script>
+<script src="jquery-ui-1.11.4.custom/jquery-ui.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="jquery/jquery-ui-1.11.4.custom/jquery-ui.css"/>
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.11.4.custom/jquery-ui.structure.css"/>
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.11.4.custom/jquery-ui.theme.css"/> -->
+
+
+<!-- javascript for jQuery  -->
+		<script type="text/javascript" src="jquery/jquery.js"></script>
+		<script type="text/javascript" src="jquery/jquery-ui.js"></script>
+		<!-- css files for jQuery theme -->
+		<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.structure.css">
+		<link rel="stylesheet" type="text/css" href="jquery/jquery-ui.theme.css">	
+
+<script type="text/javascript">
+
+
+
+$(function() 
+{
+$("#static_tabbed_panel").tabs();
+}
+);
+<!--var name;
+	if(document.cookie)
+		{
+	//		var cookieNow;
+	//		var myCookie=unescape(document.cookie);
+			var cookieTokens=document.cookie.split(";");
+			var ok = false;
+			for(var i=0;i<cookieTokens.length;i++)
+			{
+				var cookieNow=unescape(cookieTokens[i])
+				var newCookie=cookieNow.split("=");
+				if(newCookie[0]=="name")
+					{name=newCookie[1]; ok = true;}
+			}
+			if(!ok)
+			{
+			name=window.prompt("Please enter your name","642user");
+			document.cookie="name="+escape(name);
+			}	
+		}
+	else
+		{
+			name=window.prompt("Please enter your name","642user");
+			document.cookie = "name="+escape(name);
+		}
+	var now=new Date();
+	if(now.getHours()<12)
+		document.write("<h1>Good Morning, ");
+	else if(now.getHours()>16)
+		document.write("<h1>Good Evening, ");
+	else
+		document.write("<h1>Good Afternoon, ");
+	document.writeln(name+". Welcome to the Survey Page of Computer Science Department!</h1>");
+	document.writeln("<a href = 'javascript:wrongPerson()'>" + "Please click here if you are not "+name+".</a>");
+	function wrongPerson()
+	{
+		document.cookie="name=null; expires=Thu, 18 Dec 2013 00:00:01 UTC";
+		location.reload(true);
+	}
+-->
+</script>
+
+</head>
+
+<body background-image="image1.jpg">
+
+
+<strong> <font size="18" color="blue"><I><center>Stuti Deshpande</center></I></font></strong>
+<strong> <center>Master Of Science in Computer Science</center></strong>
+<br><br>
+<I><center>Welcome to my Homepage</center></I>
+
+<a href="CS.html"><strong><center>Assignment 4: CS Department Homepage</center></strong></a>
+
+<h3><center>Homeworks in Tabbed panels </center></h3>
+<div id="static_tabbed_panel">
+<ul>
+         
+         <li><a href="#tab2">Home Page</a></li>
+         <li><a href="#tab3">Survey Page</a></li>
+     </ul>
+	 <div id="tab2">
+		<iframe width ="800" height="1100" src="CS.html" width="1024px" height="800px"></iframe>
+</div>
+<div id="tab3">
+		<iframe width ="800" height="1100" src="Survey_Page.html" width="1024px" height="800px"></iframe>
+</div>
+</div>
+
+
+
+</body>
+</html>

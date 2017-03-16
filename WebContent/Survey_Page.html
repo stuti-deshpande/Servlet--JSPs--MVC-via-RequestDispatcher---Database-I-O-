@@ -1,0 +1,324 @@
+<html>
+<head>
+<title>Survey Page</title>
+
+
+<link rel = "stylesheet" type = "text/css" href = "styles/Style.css" />
+<script src="scripts/jquery-2.1.4.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="styles/jquery-ui-1.11.4.custom/jquery-ui.css"/>
+<script src="styles/jquery-ui-1.11.4.custom/jquery-ui.js" type="text/javascript"></script>
+
+ <p align="right">Stuti Deshpande</p> 
+<script type="text/javascript">
+	
+	
+	//$(function(){$(".imageClass").tooltip();});
+	
+	function dataStat()
+	{
+//		var sum=0, avg=0, max=0;
+		if(!document.getElementById("data").value=="")
+		{
+		var dataSet=document.getElementById("data").value.split(",");
+		if(dataSet.length<10)
+			document.getElementById("datalert").innerHTML="Please enter at least ten positive numbers between 1 and 100 sepatated by single commas only.";
+		else
+		{
+			for(var i=0;i<dataSet.length;i++)
+			{
+				if (dataSet[i]<1 || dataSet[i]>100 || isNaN(dataSet[i])|| dataSet[i]=="")	
+				{
+					document.getElementById("datalert").innerHTML="Please enter at least ten positive numbers between 1 and 100 sepatated by single commas only.";
+		//	document.getElementById("avg").innerHTML="";
+		//	document.getElementById("max").innerHTML="";
+					return;
+				}
+				else
+					document.getElementById("datalert").innerHTML="";
+			}
+		//	for(var i=0;i<dataSet.length;i++)
+		//		sum+=parseInt(dataSet[i]);
+		//	avg=sum/dataSet.length;
+		//	for(var i=0;i<dataSet.length;i++)
+		//	{	
+		//		if(parseFloat(dataSet[i])>parseFloat(max))
+		//			max=dataSet[i];
+		//	}
+		//	document.getElementById("avg").innerHTML=avg;
+		//	document.getElementById("max").innerHTML=max;		
+		}
+		}
+		else
+		{
+			document.getElementById("datalert").innerHTML="";
+		//	document.getElementById("avg").innerHTML="";
+		//	document.getElementById("max").innerHTML="";
+			
+		}
+		
+	}
+	
+	function submitForm()
+	{
+	//	var namepatt=/^[A-Z \s]+$/i;
+		if(!document.getElementById("name").value.match(/^[A-Z]+$/i))
+		{
+			$("#nameDialog").dialog({ modal: true });
+		//	alert("Please enter a valid name.");
+			document.getElementById("name").value="";
+		}
+		if(!document.getElementById("street").value.match(/^[a-z0-9]+$/i))
+		{
+			$("#streetDialog").dialog({ modal: true });
+		//	alert("Please enter a valid Street Adress.");
+			document.getElementById("street").value="";
+		}
+		var checks=document.getElementsByName("LikeMost")
+		var okie=false;
+		for(var i=0;i<checks.length;i++)
+			{
+				if(checks[i].checked==true)
+				{
+					for(var j=i+1;j<checks.length;j++)
+					{
+						if(checks[j].checked==true)
+						{
+							okie=true;
+							break;
+						}
+					}
+					break;
+				}
+			}
+			if(okie==false)
+			{	
+				$("#checkDialog").dialog({ modal: true });
+				//alert("Please check at least two ckeckboxes.");
+				for(var i=0;i<checks.length;i++)
+					document.getElementsByName("LikeMost")[i].checked=false;
+			}
+		var radios=document.getElementsByName("Howtosite");
+		var oki=false;
+		for(var i=0;i<radios.length;i++)
+			{
+				if(radios[i].checked==true)
+				{
+					oki=true;
+					break;
+				}
+			}
+			if(oki==false)
+			{
+				$("#radioDialog").dialog({ modal: true });
+				//alert("Please select at least one radio button.");
+			}	
+		if(!document.getElementById("email").value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i))
+		{
+			$("#emailDialog").dialog({ modal: true });
+		//	alert("Please enter a valid Email ID.");
+			document.getElementById("email").value="";
+		}
+				
+				
+	}
+	function clrForm()
+	{
+	//	document.getElementById("avg").innerHTML="";
+	//	document.getElementById("max").innerHTML="";
+		document.getElementById("datalert").innerHTML="";
+		document.getElementById("ziperr").innerHTML="";
+	}
+	function zipok()
+	{
+		zipRequest=new XMLHttpRequest();
+		zipRequest.onreadystatechange=getZip;
+		zipRequest.open('GET',"zip.json",true);
+		zipRequest.send(null);
+	}
+	function getZip()
+	{
+		var okay=false;
+		if(zipRequest.readyState==4 && zipRequest.status==200)
+		{
+			var zipjson=zipRequest.responseText;
+			var zipjsonobj=JSON.parse(zipjson);
+			var zipval=document.getElementById("zip").value;
+			for(var item in zipjsonobj.zipcodes)
+			{
+				if(zipjsonobj.zipcodes[item].zip==zipval)
+				{
+					document.getElementById("city").value=zipjsonobj.zipcodes[item].city;
+					document.getElementById("state").value=zipjsonobj.zipcodes[item].state;
+					okay=true;
+					document.getElementById("ziperr").innerHTML= "";
+					break;
+				}
+			}
+			if(okay==false)
+			{
+				document.getElementById("city").innerHTML="";
+				document.getElementById("state").innerHTML="";
+				document.getElementById("zip").value="";
+				document.getElementById("ziperr").innerHTML = "Please enter a valid zipcode.";
+			}
+		}
+	}
+	
+	
+</script>
+</head>
+<body onload="bodyLoad()">
+	<p>Please fill out this form to help us improve our service.</p>
+	<form method="post" action="Myservlet" autocomplete="on" class="cols">
+		
+			
+			
+			<div id="nameDialog" title="A jQuery UI Dialog" style="display:none">
+				<p>Please enter a valid name.</p>
+			</div>
+			<div id="streetDialog" title="A jQuery UI Dialog" style="display:none">
+				<p>Please enter a valid Street Adress.</p>
+			</div>
+			<div id="checkDialog" title="A jQuery UI Dialog" style="display:none">
+				<p>Please select at least two checkboxes.</p>
+			</div>
+			<div id="radioDialog" title="A jQuery UI Dialog" style="display:none">
+				<p>Please select at least one radio button.</p>
+			</div>
+			<div id="emailDialog" title="A jQuery UI Dialog" style="display:none">
+				<p>Please enter a valid email address.</p>
+			</div>
+			
+			
+			<label>Name:*
+		<br/>
+			<input name = "FirstName" id= "name" type = "text" size = "20" maxlength = "30" placeholder="Enter your name" autocomplete = "on" required autofocus />
+			</label>
+			
+		<br/><br/>
+		
+		<label>Student ID:*
+		<br/>
+			<input name = "StudentID" id= "studentid" type = "text" size = "20" maxlength = "30" placeholder="Enter your ID" autocomplete = "on" required autofocus />
+			</label>
+			
+		<br/><br/>
+		
+			<label>Street Adress1:
+			<br/>
+			<input name = "street1" id="street" type = "text" size = "20" maxlength = "50" placeholder="Enter your street adress" autocomplete = "on"/>
+			</label>
+		<br/><br/>
+		
+		<label>Street Adress2:
+			<br/>
+			<input name = "Street2" id="street2" type = "text" size = "20" maxlength = "50" placeholder="Enter your street adress" autocomplete = "on"/>
+			</label>
+			
+		<br/><br/>
+		<label>Zip:*<br/>
+			<input name = "zip" id="zip" type = "number" size = "20" required maxlength = "6" placeholder="Enter your zipcode" onblur="zipok()" autocomplete = "on"/>
+			<span id="ziperr" style= "color:red"></span>
+			</label>
+		<br/><br/>
+			<label>City:<br/>
+			<input type="text" name = "City" id = "city" size="20"/>
+			</label>
+		<br/><br/>
+			<label>State:<br/>
+			<input type="text" name = "State" id = "state" size="20"/>
+			</label><br/><br/>
+		<label>Telephone Number:*<br/>
+			<input name="TelephoneNumber" id="number" type = "number" size = "20" maxlength = "30" placeholder="Enter your telephone number" required autocomplete = "on"/>
+			</label><br/><br/>
+		<label>Email:*<br/>
+			<input  name="Email" id="email" type = "email" size = "20" maxlength = "30" placeholder="Enter your email adress" required autocomplete = "on"/>
+			</label><br/><br/>
+		<label>URL:<br/>
+			<input name = "url" type = "url" size = "20" maxlength = "30" placeholder="Enter your url" autocomplete = "on"/>
+			</label><br/><br/>
+		<label>Date of Survey:*<br/>
+			<input name = "date" type = "date" size = "20" maxlength = "30" required/>
+			</label>
+		
+		<p>What did you like most about the campus?
+		<br/>
+			
+			<input name = "LikeMost" type = "checkbox" value = "Students" /><label>Students</label><br/>
+			
+			<input name = "LikeMost" type = "checkbox" value = "Location" /><label>Location</label><br/>
+			
+			<input name = "LikeMost" type = "checkbox" value = "Campus" /><label>Campus</label><br/>
+			
+			<input name = "LikeMost" type = "checkbox" value = "Atmosphere" /><label>Atmosphere</label><br/>
+			
+			<input name = "LikeMost" type = "checkbox" value = "Dorm Rooms" /><label>Dorm Rooms</label><br/>
+			
+			<input name = "LikeMost" type = "checkbox" value = "Sports" /><label>Sports</label>
+		</p>
+		<p>How did you become interested in the university?
+		<br/>	
+			
+			<input name = "Howtosite" type = "radio" required value = "Friends" /><label>Friends</label><br/>
+			
+			<input name = "Howtosite" type = "radio" required value = "Television" /><label>Television</label><br/>
+			
+			<input name = "Howtosite" type = "radio" required value = "Internet" /><label>Internet</label><br/>
+			
+			<input name = "Howtosite" type = "radio" required value = "Other" /><label>Other</label><br/>
+		</p>
+		<p>
+			<label>Additional Comments:<br />
+			<textarea name = "comments" rows = "4" cols = "36" placeholder="Enter additional comments here."></textarea>
+			</label>
+		</p>
+		When did you graduate high school?
+		<br/>
+			<label for="txtList">Month:<br/>
+			<input name="GradMonth" type = "text" id = "txtList" placeholder = "Select a month" size = "20" list = "months"  />
+                <datalist id = "months">
+                    <option value = "January">
+                    <option value = "February">
+                    <option value = "March">
+                    <option value = "April">
+                    <option value = "May">
+                    <option value = "June">
+                    <option value = "July">
+                    <option value = "August">
+                    <option value = "September">
+                    <option value = "October">
+                    <option value = "November">
+                    <option value = "December">
+                </datalist>
+			</label><br/>
+		
+			<label>Year:<br/>
+			<input name = "Year" type = "number" size = "20" maxlength = "4" placeholder="Enter graduation year" />
+			</label>
+		
+		<p>How likely are you to recommend George Mason to others?        
+                <select  name = "Likelihood" >
+                    <option disabled="disabled" value="">Select an option</option>
+                    <option value = "Very Likely">Very Likely</option>
+                    <option value = "Likely">Likely</option>
+                    <option value = "Unlikely">Unlikely</option>
+                </select>
+		</p>
+		
+		
+			<label>Data:<br/><input name="Data" id="data" onblur="dataStat()" type="text" size="40" maxlength="200" autocomplete="on"/></label>
+				<br/><span  id="datalert" style= "color:red"></span>
+		
+		<p>
+		<input type="submit" onclick="submitForm()"/>
+		<input type="reset" onclick="clrForm()"/>
+		</p>
+	</form>
+	
+<!--	<a href="http://www.gmu.edu">
+	<img src="logo.jpg" alt="GMU logo" class="imageClass" title="Please visit http://www.gmu.edu for more information."/>
+	</a>
+	-->
+	
+</body>
+</html>
